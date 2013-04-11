@@ -83,7 +83,7 @@ public class MorphAnalyzer {
 		boolean isVerbOnly = MorphUtil.hasVerbOnly(input);
 
 		analysisByRule(input, candidates);		
-		
+	
 		if(!isVerbOnly||candidates.size()==0) addSingleWord(input,candidates);
 	
 		Collections.sort(candidates,new AnalysisOutputComparator());
@@ -92,7 +92,7 @@ public class MorphAnalyzer {
 		boolean changed = false;
 		boolean correct = false;
 		for(AnalysisOutput o:candidates) {
-//		System.out.println(o);
+		
 			if(o.getScore()==AnalysisOutput.SCORE_CORRECT) {
 				if(o.getPatn()!=PatternConstants.PTN_NJ) correct=true;
 				// "활성화해"가 [활성화(N),하(t),어야(e)] 분석성공하였는데 [활성/화해]분해되는 것을 방지
@@ -102,12 +102,14 @@ public class MorphAnalyzer {
 
 			if(o.getPatn()<PatternConstants.PTN_VM&&o.getStem().length()>2) {
 				 if(!(correct&&o.getPatn()==PatternConstants.PTN_N)) confirmCNoun(o);
-				 if(o.getScore()==AnalysisOutput.SCORE_CORRECT) changed=true;
+				 if(o.getScore()>=AnalysisOutput.SCORE_COMPOUNDS) changed=true;
 			}
 		
 		}
 		
-		if(changed) Collections.sort(candidates,new AnalysisOutputComparator());	
+		if(changed) {
+			Collections.sort(candidates,new AnalysisOutputComparator());	
+		}
 
 		List<AnalysisOutput> results = new ArrayList();	
 		
@@ -122,7 +124,7 @@ public class MorphAnalyzer {
 		AnalysisOutput compound = null;
 		
 		for(AnalysisOutput o:candidates) { 
-//System.out.println("analyze-->"+o.toString());
+
 			if(o.getScore()==AnalysisOutput.SCORE_FAIL) continue; // 분석에는 성공했으나, 제약조건에 실패
 			if(o.getScore()==AnalysisOutput.SCORE_CORRECT && o.getPos()!=PatternConstants.POS_NOUN ) {
 				addResults(o,results,stems);
@@ -156,7 +158,7 @@ public class MorphAnalyzer {
 			}else if(o.getPatn()==PatternConstants.PTN_NSM) {
 				addResults(o,results,stems);
 			}
-		}	
+		}			
 		
 		if(compound!=null) addResults(compound,results,stems);
 		
@@ -240,7 +242,7 @@ public class MorphAnalyzer {
 			if(entry.getFeature(WordEntry.IDX_VERB)!='1') return;
 		} else if(candidates.size()==0||!NounUtil.endsWith2Josa(word)) {
 			output.setScore(AnalysisOutput.SCORE_ANALYSIS);
-			candidates.add(output);
+			candidates.add(0,output);
 		}
 	}
 	

@@ -18,9 +18,13 @@ package org.apache.lucene.analysis.kr.morph;
  */
 
 import java.util.ArrayList;
+
 import java.util.List;
 
+import org.apache.lucene.analysis.kr.utils.MorphUtil;
 import org.apache.lucene.analysis.kr.utils.Utilities;
+
+import org.apache.lucene.analysis.kr.morph.PatternConstants;
 
 public class AnalysisOutput implements Cloneable {
 
@@ -41,7 +45,7 @@ public class AnalysisOutput implements Cloneable {
 	private char dinf; // pos info. in Han-dic
 	private String nsfx; // index of noun suffix
 	private String josa; // josa string
-	private List<String> jlist = new ArrayList<String>(); // unit-josa sequnce
+	private List<String> jlist = new ArrayList<String>(); // unit-josa sequence
 	private String eomi;  // Eomi string
 	private List<String> elist = new ArrayList<String>(); // unit-Eomi sequence
 	private String pomi; // prefinal Eomi
