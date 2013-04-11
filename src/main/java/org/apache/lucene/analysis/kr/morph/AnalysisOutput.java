@@ -18,13 +18,9 @@ package org.apache.lucene.analysis.kr.morph;
  */
 
 import java.util.ArrayList;
-
 import java.util.List;
 
-import org.apache.lucene.analysis.kr.utils.MorphUtil;
 import org.apache.lucene.analysis.kr.utils.Utilities;
-
-import org.apache.lucene.analysis.kr.morph.PatternConstants;
 
 public class AnalysisOutput implements Cloneable {
 
@@ -197,11 +193,11 @@ public class AnalysisOutput implements Cloneable {
 		return compound;
 	}
 	
-	public void setCNoun(List cnoun) {
+	public void setCNoun(List<CompoundEntry> cnoun) {
 		compound = cnoun;
 	}
 	
-	public void addCNoun(List cnoun) {
+	public void addCNoun(List<CompoundEntry> cnoun) {
 		compound.addAll(cnoun);
 	}
 	
